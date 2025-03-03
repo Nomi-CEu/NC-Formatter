@@ -1,11 +1,21 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Upload from "../components/Upload.svelte"
 ---
 
 <Layout>
-	<Welcome />
+	<main class="max-w-4xl m-auto text-text">
+		<h1 class="mx-auto mt-8 mb-4 text-4xl font-bold text-center">Nomi-CEu NuclearCraft Formatter</h1>
+		<p class="subtitle text-lg">Tool to convert Reactor JSON Files to Building Gadgets Strings, for Nomi-CEu!</p>
+
+		<h2 class="title">Step 1: Upload Data</h2>
+		<p class="subtitle">
+			Accepted: Hellrage JSON Files
+			(from <a href="https://github.com/hellrage/NC-Reactor-Planner">Hellrage</a> or
+			<a href="https://leu-235.com/">LEU-235</a>),
+			<a href="https://balam314.github.io/Einsteinium/">Einsteinium</a> JSON Files
+		</p>
+		<hr class="separator" />
+		<Upload client:only="svelte" />
+	</main>
 </Layout>
