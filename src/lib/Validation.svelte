@@ -129,7 +129,6 @@
     const y = foundData.InteriorDimensions.Y;
     const z = foundData.InteriorDimensions.Z;
 
-    console.log(`Validating size: ${x}, ${y}, ${z}`);
     if (!validateSize(x, "X")) return false;
     if (!validateSize(y, "Y")) return false;
     if (!validateSize(z, "Z")) return false;

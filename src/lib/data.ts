@@ -111,21 +111,3 @@ for (const cooler of coolerMap) {
   ncrpToId[cooler[0]] = cooler[1];
   ncrpToId[`Active ${cooler[0]}`] = cooler[1] + 32;
 }
-
-// Debug
-console.debug("Starting Debug:");
-console.debug("Starting Debug Print of NCRP to ID Map:");
-console.debug(JSON.stringify(ncrpToId, null, 2));
-console.debug("Starting Debug Print of ID to BG Map:");
-let debug = "[";
-for (let i = 0; i < idToMapState.length; i++) {
-  const map = idToMapState[i];
-  if (!map) {
-    debug += `\n  ${i}: undefined,`;
-    continue;
-  }
-
-  debug += `\n  ${i}: ${JSON.stringify(map({ casings: "NONE", activeCooler: true, moderator: "EXACT" })) || "air"},`;
-}
-console.debug(debug + "\n]");
-console.debug("End Debug Print.");
