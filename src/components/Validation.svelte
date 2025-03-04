@@ -6,6 +6,7 @@
     type EinsteiniumSchema,
     idToMapState,
     type NCRPSchema,
+    ncrpToId,
   } from "../data/data.ts";
   import { fade } from "svelte/transition";
   import Ajv from "ajv";
@@ -18,6 +19,15 @@
 
   const einsteiniumValidation =
     "This is a string of text that only Einsteinium's data files should have and is used to validate the JSON. Einsteinium is a tool to help you plan NuclearCraft fission reactors. grhe3uy48er9tfijrewiorf.";
+
+  const validatePos = (pos: number, name: string, size: number) => {
+    if (pos < 1 || pos > size) {
+      errorMsg = "Invalid Reactor Position!";
+      errorReason = `Pos ${name} must be between 1 and ${size}, found ${pos}.`;
+      return false;
+    }
+    return true;
+  };
 
   const validateSize = (size: number, name: string) => {
     if (size < 1 || size > 24) {
@@ -129,6 +139,47 @@
     if (!validateSize(x, "X")) return false;
     if (!validateSize(y, "Y")) return false;
     if (!validateSize(z, "Z")) return false;
+
+    const states: number[][][] = [];
+
+    for (let i = 0; i < y; i++) {
+      states[i] = [];
+      for (let j = 0; j < x; j++) {
+        states[i][j] = [];
+        for (let k = 0; k < z; k++) {
+          states[i][j][k] = 0;
+        }
+      }
+    }
+
+    // Validate Content Positions and Content Names
+    for (const key of Object.keys(foundData.CompressedReactor)) {
+      if (!(key in ncrpToId)) {
+        errorMsg = "Invalid Reactor Content!";
+        errorReason = `Invalid Type ${key} in content.`;
+        return false;
+      }
+
+      const id = ncrpToId[key];
+      const item = foundData.CompressedReactor[key];
+      for (const pos of item) {
+        if (!validatePos(pos.X, "X", x)) return false;
+        if (!validatePos(pos.Y, "Y", y)) return false;
+        if (!validatePos(pos.Z, "Z", z)) return false;
+
+        if (states[pos.Y - 1][pos.X - 1][pos.Z - 1] !== 0) {
+          errorMsg = "Invalid Reactor Content!";
+          errorReason = `Duplicate position ${pos.X}, ${pos.Y}, ${pos.Z} in content.`;
+          return false;
+        }
+        states[pos.Y - 1][pos.X - 1][pos.Z - 1] = id;
+      }
+    }
+
+    // Valid: Set Data
+    data.set({ dim: [x, y, z], states });
+    success = true;
+    dataType = "Hellrage Planner";
 
     return false;
   }
