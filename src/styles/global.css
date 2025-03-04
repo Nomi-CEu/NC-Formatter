@@ -2,39 +2,39 @@
 
 /* ===== scrollbar ===== */
 html {
-    overflow-y: scroll;
+  overflow-y: scroll;
 }
 
 .title {
-    @apply mx-auto mt-8 mb-4 text-2xl font-bold text-center;
+  @apply mx-auto mt-8 mb-4 text-center text-2xl font-bold;
 }
 
 .subtitle {
-    @apply mx-auto italic text-center font-sans text-text/70
+  @apply text-text/70 mx-auto text-center font-sans italic;
 }
 
 .separator {
-    @apply border-primary border-3 my-8 rounded-2xl;
+  @apply border-primary my-8 rounded-2xl border-3;
 }
 
 /* width */
 ::-webkit-scrollbar {
-    @apply w-3;
+  @apply w-3;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-    @apply bg-fill;
+  @apply bg-fill;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    @apply bg-primary;
+  @apply bg-primary;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    @apply bg-accent;
+  @apply bg-accent;
 }
 
 /* Fonts */
@@ -44,21 +44,21 @@ h3,
 h4,
 h5,
 h6 {
-    @apply font-title;
+  @apply font-title;
 }
 
 a {
-    @apply underline decoration-dashed underline-offset-6 break-words hover:text-accent;
+  @apply hover:text-accent break-words underline decoration-dashed underline-offset-6;
 }
 
 @theme {
-    --color-fill: rgba(14, 11, 22, 255);
-    --color-text: rgba(237, 234, 246, 255);
-    --color-primary: rgba(178, 168, 209, 255);
-    --color-secondary: rgba(65, 47, 120, 255);
-    --color-accent: rgba(110, 79, 206, 255);
-    --color-code: rgba(37,39,57, 255);
-    --color-normal: rgba(138, 103, 171, 255);
-    --color-expert: rgba(96, 0, 0, 255);
-    --font-title: Geologica, monospace
+  --color-fill: rgba(14, 11, 22, 255);
+  --color-text: rgba(237, 234, 246, 255);
+  --color-primary: rgba(178, 168, 209, 255);
+  --color-secondary: rgba(65, 47, 120, 255);
+  --color-accent: rgba(110, 79, 206, 255);
+  --color-code: rgba(37, 39, 57, 255);
+  --color-normal: rgba(138, 103, 171, 255);
+  --color-expert: rgba(96, 0, 0, 255);
+  --font-title: Geologica, monospace;
 }

@@ -1,13 +1,18 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
 import Upload from "../components/Upload.svelte";
 ---
 
 <Layout>
-	<main class="max-w-4xl m-auto text-text">
-		<h1 class="mx-auto mt-8 mb-4 text-4xl font-bold text-center">Nomi-CEu NuclearCraft Formatter</h1>
-		<p class="subtitle text-lg">Tool to convert Reactor JSON Files to Building Gadgets Strings, for Nomi-CEu!</p>
+  <main class="text-text m-auto max-w-4xl">
+    <h1 class="mx-auto mt-8 mb-4 text-center text-4xl font-bold">
+      Nomi-CEu NuclearCraft Formatter
+    </h1>
+    <p class="subtitle text-lg">
+      Tool to convert Reactor JSON Files to Building Gadgets Strings, for
+      Nomi-CEu!
+    </p>
 
-		<Upload client:load />
-	</main>
+    <Upload client:load />
+  </main>
 </Layout>
