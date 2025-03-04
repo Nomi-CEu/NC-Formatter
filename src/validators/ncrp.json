@@ -1,35 +1,35 @@
 {
-	"title": "Hellrage Reactor Planner Validator",
-	"type": "object",
-	"properties": {
-		"InteriorDimensions": { "$ref": "#/$defs/pos" },
-		"CompressedReactor": {
-			"type": "object",
-			"additionalProperties": {
-				"type": "array",
-				"minItems": 1,
-				"items": {
-					"$ref": "#/$defs/pos"
-				}
-			}
-		}
-	},
-	"required": ["InteriorDimensions", "CompressedReactor"],
-	"$defs": {
-		"pos": {
-			"type": "object",
-			"properties": {
-				"X": {
-					"type": "number"
-				},
-				"Y": {
-					"type": "number"
-				},
-				"Z": {
-					"type": "number"
-				}
-			},
-			"required": ["X", "Y", "Z"]
-		}
-	}
+  "title": "Hellrage Reactor Planner Validator",
+  "type": "object",
+  "properties": {
+    "InteriorDimensions": { "$ref": "#/$defs/pos" },
+    "CompressedReactor": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "$ref": "#/$defs/pos"
+        }
+      }
+    }
+  },
+  "required": ["InteriorDimensions", "CompressedReactor"],
+  "$defs": {
+    "pos": {
+      "type": "object",
+      "properties": {
+        "X": {
+          "type": "number"
+        },
+        "Y": {
+          "type": "number"
+        },
+        "Z": {
+          "type": "number"
+        }
+      },
+      "required": ["X", "Y", "Z"]
+    }
+  }
 }

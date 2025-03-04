@@ -1,13 +1,13 @@
-import { type Data } from './data';
+import { type Data } from "./data";
 
 interface Store {
-	rawText: string;
-	data: Data | undefined;
+  rawText: string;
+  data: Data | undefined;
 }
 
 const store = $state({
-	rawText: '',
-	data: undefined
+  rawText: "",
+  data: undefined,
 } as Store);
 
 export default store;
