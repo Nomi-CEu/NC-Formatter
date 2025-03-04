@@ -1,6 +1,6 @@
 <script lang="ts">
   import store from "./stores.svelte";
-  import {idToMapState, type Material} from "$lib/data";
+  import { idToMapState, type Material } from "$lib/data";
 
   let empties = $state(0);
   let materials: Material[] = $state([]);

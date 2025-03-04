@@ -224,4 +224,6 @@
   <div in:fade>
     {@render children()}
   </div>
+{:else}
+  <p class="text-text/50 text-2xl font-bold">Validating...</p>
 {/if}
