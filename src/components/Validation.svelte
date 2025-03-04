@@ -133,16 +133,20 @@
 
 </script>
 
-{#if errorMsg}
-    <h3 class="title text-red-400 !ml-0 !mr-auto !text-left !mb-4">Error:</h3>
-    <p class="text-text font-bold text-lg font-title">{errorMsg}</p>
-    {#if errorFix}
-        <p class="text-text mt-2">{errorFix}</p>
+<div class:!opacity-0={!$rawText} class="opacity-100 transition-opacity duration-1000">
+    <h2 class="title">Step 2: Validation</h2>
+    <hr class="separator" />
+    {#if errorMsg}
+        <h3 class="title text-red-400 !ml-0 !mr-auto !text-left !mb-4">Error:</h3>
+        <p class="text-text font-bold text-lg font-title">{errorMsg}</p>
+        {#if errorFix}
+            <p class="text-text mt-2">{errorFix}</p>
+        {/if}
+        {#if errorReason}
+            <p class="text-text/50 italic mt-1">{errorReason}</p>
+        {/if}
+    {:else if success}
+        <h3 class="title !ml-0 !mr-auto !text-left !mb-4">Successfully Validated!</h3>
+        <p class="text-text">Imported: {dataType}<br>Dimensions: {$data?.dim[0]} x {$data?.dim[1]} x {$data?.dim[2]}</p>
     {/if}
-    {#if errorReason}
-        <p class="text-text/50 italic mt-1">{errorReason}</p>
-    {/if}
-{:else if success}
-    <h3 class="title !ml-0 !mr-auto !text-left !mb-4">Successfully Validated!</h3>
-    <p class="text-text">Imported: {dataType}<br>Dimensions: {$data?.dim[0]} x {$data?.dim[1]} x {$data?.dim[2]}</p>
-{/if}
+</div>
