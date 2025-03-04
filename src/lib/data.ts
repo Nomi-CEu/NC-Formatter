@@ -33,6 +33,12 @@ export interface NCRPPos {
   Z: number;
 }
 
+export interface Material {
+  id: number;
+  display: string;
+  amount: number;
+}
+
 export type InternalData = [string, (op: Options) => BGExport | undefined];
 
 const graphiteMod: BGExport = {

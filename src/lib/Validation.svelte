@@ -209,6 +209,7 @@
 </script>
 
 <h2 class="title">Step 2: Validation</h2>
+<p class="subtitle">Please Check that the Imported Reactor Data is Correct.</p>
 <hr class="separator" />
 {#if errorMsg}
   <h3 class="title !mr-auto !mb-4 !ml-0 !text-left text-red-400">Error:</h3>
@@ -221,7 +222,6 @@
   {/if}
 {:else if success}
   <div in:fade>
-    <h3 class="title !mr-auto !mb-4 !ml-0 !text-left !text-2xl">Successfully Validated!</h3>
     {@render children()}
   </div>
 {/if}

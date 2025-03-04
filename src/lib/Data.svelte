@@ -1,15 +1,12 @@
 <script lang="ts">
   import store from "./stores.svelte";
-  import { idToMapState } from "$lib/data";
+  import {idToMapState, type Material} from "$lib/data";
 
   let empties = $state(0);
-  let materials: { id: number; display: string; amount: number }[] = $state([]);
+  let materials: Material[] = $state([]);
 
   $effect(() => {
-    const result: Map<number, { id: number; display: string; amount: number }> = new Map<
-      number,
-      { id: number; display: string; amount: number }
-    >();
+    const result: Map<number, Material> = new Map<number, Material>();
 
     for (const xRow of store.data?.states || [[[]]]) {
       for (const zRow of xRow) {
@@ -46,7 +43,7 @@
   {empties} ({Math.round((empties / cubicVolume) * 100)}%)
 </p>
 
-{#if materials && materials.length > 0}
+{#if materials && materials.length > 0 && empties !== cubicVolume}
   <h3 class="section-title">Materials:</h3>
   <p class="text-text">
     {#each materials as material, i (material ? material.id : i)}
