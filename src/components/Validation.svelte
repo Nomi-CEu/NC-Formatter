@@ -2,13 +2,13 @@
   import { rawText, data } from "../storage/currentProcessing.ts";
   import einsteinium from "../validators/einsteinium.json";
   import ncrp from "../validators/ncrp.json";
-  import { Validator } from "jsonschema";
   import {
     type EinsteiniumSchema,
     idToMapState,
     type NCRPSchema,
   } from "../data/data.ts";
   import { fade } from "svelte/transition";
+  import Ajv from "ajv";
 
   let errorMsg = $state("");
   let errorReason = $state("");
@@ -28,6 +28,10 @@
     return true;
   };
 
+  const ajv = new Ajv();
+  const einsteiniumValidator = ajv.compile(einsteinium);
+  const ncrpValidator = ajv.compile(ncrp);
+
   /**
    * Returns whether we should try to parse another format.
    */
@@ -35,10 +39,9 @@
     if (!inputData.metadata || !inputData.content) return true;
 
     // Validate Types
-    const result = new Validator().validate(inputData, einsteinium);
-    if (!result.valid) {
+    if (!einsteiniumValidator(inputData)) {
       errorMsg = "Invalid Einsteinium JSON!";
-      errorReason = result.errors.at(0)?.toString() || "";
+      errorReason = einsteiniumValidator.errors?.at(0)?.toString() || "";
       errorFix = "Did you import the correct file?";
       return false;
     }
@@ -108,10 +111,9 @@
       return true;
 
     // Validate Types
-    const result = new Validator().validate(inputData, ncrp);
-    if (!result.valid) {
+    if (!ncrpValidator(inputData)) {
       errorMsg = "Invalid Hellrage Planner JSON!";
-      errorReason = result.errors.at(0)?.toString() || "";
+      errorReason = ncrpValidator.errors?.at(0)?.toString() || "";
       errorFix = "Did you import the correct file?";
       return false;
     }
@@ -123,6 +125,7 @@
     const y = foundData.InteriorDimensions.Y;
     const z = foundData.InteriorDimensions.Z;
 
+    console.log(`Validating size: ${x}, ${y}, ${z}`);
     if (!validateSize(x, "X")) return false;
     if (!validateSize(y, "Y")) return false;
     if (!validateSize(z, "Z")) return false;
