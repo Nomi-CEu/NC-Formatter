@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Upload from "../components/Upload.svelte"
+import Upload from "../components/Upload.svelte";
+import Validation from "../components/Validation.svelte";
 ---
 
 <Layout>
@@ -17,5 +18,9 @@ import Upload from "../components/Upload.svelte"
 		</p>
 		<hr class="separator" />
 		<Upload client:only="svelte" />
+
+		<h2 class="title">Step 2: Validation</h2>
+		<hr class="separator" />
+		<Validation client:only="svelte" />
 	</main>
 </Layout>

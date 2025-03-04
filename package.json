@@ -12,6 +12,7 @@
     "@astrojs/svelte": "^7.0.5",
     "@tailwindcss/vite": "^4.0.9",
     "astro": "^5.4.1",
+    "jsonschema": "^1.5.0",
     "svelte": "^5.20.5",
     "tailwindcss": "^4.0.9",
     "typescript": "^5.8.2"

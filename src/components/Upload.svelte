@@ -16,7 +16,7 @@
 </script>
 
 <div class="grid-cols-2 gap-10 mb-10">
-    <textarea class="h-96 w-4xl mb-5 p-3 border-primary/50 bg-code border-4 rounded-lg max-h-none outline-none font-mono text-sm/6" bind:value={$rawText} placeholder="Input your reactor JSON (in Hellrage or Einsteinium format)..." contenteditable="true">
+    <textarea class="h-96 w-4xl mb-5 p-3 border-primary/50 bg-code border-4 rounded-lg max-h-none outline-none font-mono text-sm/6" bind:value={$rawText} placeholder="Input your Reactor JSON (in Hellrage or Einsteinium Format)..." contenteditable="true">
 
     </textarea>
 
