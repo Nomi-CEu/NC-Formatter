@@ -6,11 +6,12 @@
   import { fade } from "svelte/transition";
   import Ajv from "ajv";
 
+  let { children } = $props();
+
   let errorMsg = $state("");
   let errorReason = $state("");
   let errorFix = $state("");
   let success = $state(false);
-  let dataType = $state("");
 
   const einsteiniumValidation =
     "This is a string of text that only Einsteinium's data files should have and is used to validate the JSON. Einsteinium is a tool to help you plan NuclearCraft fission reactors. grhe3uy48er9tfijrewiorf.";
@@ -62,9 +63,7 @@
     }
 
     // Validate Dimensions
-    const x = foundData.metadata.dimensions[0];
-    const y = foundData.metadata.dimensions[1];
-    const z = foundData.metadata.dimensions[2];
+    const [x, y, z] = foundData.metadata.dimensions;
 
     if (!validateSize(x, "X")) return false;
     if (!validateSize(y, "Y")) return false;
@@ -104,7 +103,7 @@
     // Valid: Set Data
     store.data = { dim: foundData.metadata.dimensions, states: foundData.content };
     success = true;
-    dataType = "Einsteinium";
+    store.dataType = "Einsteinium";
     return false;
   }
 
@@ -172,7 +171,7 @@
     // Valid: Set Data
     store.data = { dim: [x, y, z], states };
     success = true;
-    dataType = "Hellrage Planner";
+    store.dataType = "Hellrage";
 
     return false;
   }
@@ -182,7 +181,7 @@
     errorReason = "";
     errorFix = "";
     success = false;
-    dataType = "";
+    store.dataType = "";
     store.data = undefined;
 
     if (!store.rawText) return;
@@ -222,11 +221,7 @@
   {/if}
 {:else if success}
   <div in:fade>
-    <h3 class="title !mr-auto !mb-4 !ml-0 !text-left">Successfully Validated!</h3>
-    <p class="text-text">
-      <span class="font-bold">Imported Type:</span>
-      {dataType} JSON<br /><span class="font-bold">Dimensions:</span>
-      {store.data?.dim[0]} x {store.data?.dim[1]} x {store.data?.dim[2]}
-    </p>
+    <h3 class="title !mr-auto !mb-4 !ml-0 !text-left !text-2xl">Successfully Validated!</h3>
+    {@render children()}
   </div>
 {/if}

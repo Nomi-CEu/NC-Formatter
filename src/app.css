@@ -7,11 +7,15 @@ html {
 }
 
 .title {
-  @apply mx-auto mt-8 mb-4 text-center text-2xl font-bold;
+  @apply mx-auto mt-8 mb-4 text-center text-2xl font-bold tracking-wide;
 }
 
 .subtitle {
   @apply text-text/70 mx-auto text-center font-sans italic;
+}
+
+.section-title {
+  @apply mt-8 mr-auto mb-2 ml-0 text-left text-[1.25rem] font-bold tracking-wide;
 }
 
 .separator {

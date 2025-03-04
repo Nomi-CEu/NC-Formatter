@@ -33,6 +33,8 @@ export interface NCRPPos {
   Z: number;
 }
 
+export type InternalData = [string, (op: Options) => BGExport | undefined];
+
 const graphiteMod: BGExport = {
   Name: "gregtech:meta_block_compressed_12",
   Properties: { variant: "gregtech__graphite" },
@@ -42,14 +44,22 @@ const berylliumMod: BGExport = {
   Properties: { variant: "gregtech__beryllium" },
 };
 
-const air = () => undefined;
+const air: InternalData = [
+  "Air",
+  () => {
+    return undefined;
+  },
+];
 
-const moderator = (preferred: BGExport) => {
-  return (op: Options) => {
-    if (op.moderator === "EXACT") return preferred;
-    if (op.moderator === "GRAPHITE") return graphiteMod;
-    if (op.moderator === "BERYLLIUM") return berylliumMod;
-  };
+const moderator = (display: string, preferred: BGExport): InternalData => {
+  return [
+    display,
+    (op: Options) => {
+      if (op.moderator === "EXACT") return preferred;
+      if (op.moderator === "GRAPHITE") return graphiteMod;
+      if (op.moderator === "BERYLLIUM") return berylliumMod;
+    },
+  ];
 };
 
 const coolerMap: [string, number][] = [
@@ -71,30 +81,40 @@ const coolerMap: [string, number][] = [
 ];
 
 // Internal ID (& Einsteinium ID) to BG State
-export const idToMapState: (((op: Options) => BGExport | undefined) | undefined)[] = [
+export const idToMapState: (InternalData | undefined)[] = [
   air, // 0: Air
-  () => {
-    return { Name: "nuclearcraft:cell_block" };
-  }, // 1: Reactor Cell
+  [
+    "Fuel Cell", // 1: Reactor Cell
+    () => {
+      return { Name: "nuclearcraft:cell_block" };
+    },
+  ],
 ];
 
 // Add Coolers and Active Coolers (IDs: 2-16, 34-48)
 for (const cooler of coolerMap) {
-  idToMapState[cooler[1]] = () => {
-    return {
-      Name: "nuclearcraft:cooler",
-      Properties: { type: cooler[0].toLowerCase() },
-    };
-  };
-  idToMapState[cooler[1] + 32] = (op: Options) => {
-    if (op.activeCooler) return { Name: "nuclearcraft:active_cooler" };
-    return undefined;
-  };
+  idToMapState[cooler[1]] = [
+    `${cooler[0]} Cooler`,
+    () => {
+      return {
+        Name: "nuclearcraft:cooler",
+        Properties: { type: cooler[0].toLowerCase() },
+      };
+    },
+  ];
+  idToMapState[cooler[1] + 32] = [
+    `Active ${cooler[0]} Cooler`,
+    (op: Options) => {
+      if (op.activeCooler) return { Name: "nuclearcraft:active_cooler" };
+
+      return undefined;
+    },
+  ];
 }
 
 // 17-18: Moderators (Graphite then Beryllium)
-idToMapState[17] = moderator(graphiteMod);
-idToMapState[18] = moderator(berylliumMod);
+idToMapState[17] = moderator("Graphite Moderator", graphiteMod);
+idToMapState[18] = moderator("Beryllium Moderator", berylliumMod);
 
 // 19: Casing (Unused, Just Map to Air)
 idToMapState[19] = air;

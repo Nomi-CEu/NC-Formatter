@@ -1,6 +1,7 @@
 <script>
   import Upload from "$lib/Upload.svelte";
   import Validation from "$lib/Validation.svelte";
+  import Data from "$lib/Data.svelte";
 </script>
 
 <main class="text-text m-auto max-w-4xl">
@@ -10,6 +11,8 @@
   </p>
 
   <Upload>
-    <Validation />
+    <Validation>
+      <Data />
+    </Validation>
   </Upload>
 </main>
