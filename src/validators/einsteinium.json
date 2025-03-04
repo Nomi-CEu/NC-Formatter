@@ -1,41 +1,41 @@
 {
-  "title": "Einsteinium Validator",
-  "type": "object",
-  "properties": {
-    "metadata": {
-      "type": "object",
-      "properties": {
-        "validationCode": {
-          "type": "string"
-        },
-        "dimensions": {
-          "type": "array",
-          "title": "Dimensions",
-          "minItems": 3,
-          "maxItems": 3,
-          "items": {
-            "type": "number"
-          }
-        }
-      },
-      "required": ["validationCode", "dimensions"]
-    },
-    "content": {
-      "type": "array",
-      "title": "Contents (x)",
-      "items": {
-        "type": "array",
-        "title": "Contents (y)",
-        "items": {
-          "type": "array",
-          "title": "Contents (z)",
-          "items": {
-            "type": "number",
-            "title": "Content"
-          }
-        }
-      }
-    }
-  },
-  "required": ["metadata", "content"]
+	"title": "Einsteinium Validator",
+	"type": "object",
+	"properties": {
+		"metadata": {
+			"type": "object",
+			"properties": {
+				"validationCode": {
+					"type": "string"
+				},
+				"dimensions": {
+					"type": "array",
+					"title": "Dimensions",
+					"minItems": 3,
+					"maxItems": 3,
+					"items": {
+						"type": "number"
+					}
+				}
+			},
+			"required": ["validationCode", "dimensions"]
+		},
+		"content": {
+			"type": "array",
+			"title": "Contents (x)",
+			"items": {
+				"type": "array",
+				"title": "Contents (y)",
+				"items": {
+					"type": "array",
+					"title": "Contents (z)",
+					"items": {
+						"type": "number",
+						"title": "Content"
+					}
+				}
+			}
+		}
+	},
+	"required": ["metadata", "content"]
 }

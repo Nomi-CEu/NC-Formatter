@@ -1,13 +1,4 @@
-# Ignore everything
-/*
-
-# Except these files & folders
-!/src
-!/public
-!/.github
-!tsconfig.json
-!astro.config.ts
-!package.json
-!.prettierrc
-!.eslintrc.cjs
-!README.md
+# Package Managers
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
