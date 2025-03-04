@@ -156,7 +156,7 @@
     for (const key of Object.keys(foundData.CompressedReactor)) {
       if (!(key in ncrpToId)) {
         errorMsg = "Invalid Reactor Content!";
-        errorReason = `Invalid Type ${key} in content.`;
+        errorReason = `Invalid type '${key}' in content.`;
         return false;
       }
 
@@ -169,7 +169,7 @@
 
         if (states[pos.Y - 1][pos.X - 1][pos.Z - 1] !== 0) {
           errorMsg = "Invalid Reactor Content!";
-          errorReason = `Duplicate position ${pos.X}, ${pos.Y}, ${pos.Z} in content.`;
+          errorReason = `Duplicate position (${pos.X}, ${pos.Y}, ${pos.Z}) in content.`;
           return false;
         }
         states[pos.Y - 1][pos.X - 1][pos.Z - 1] = id;
@@ -236,9 +236,7 @@
       <h3 class="title !mr-auto !mb-4 !ml-0 !text-left">
         Successfully Validated!
       </h3>
-      <p class="text-text">
-        Imported: {dataType}<br />Dimensions: {$data?.dim[0]} x {$data?.dim[1]} x
-        {$data?.dim[2]}
+      <p class="text-text"><span class="font-bold">Imported Type:</span> {dataType} JSON<br /><span class="font-bold">Dimensions:</span> {$data?.dim[0]} x {$data?.dim[1]} x{$data?.dim[2]}
       </p>
     </div>
   {/if}
