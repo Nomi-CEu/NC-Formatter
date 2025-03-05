@@ -46,16 +46,12 @@
     {/each}
   </ul>
 
-  {#if materials.empties > 0}
-    <h3 class="section-title">
-      Interior Empty Spaces: {materials.empties} ({Math.round(
-        (materials.empties / volumeNum) * 100,
-      )}%)
-    </h3>
-    <p class="section-subtitle pb-6">
-      Percentage calculated using interior space, ignoring casings.
-    </p>
-  {/if}
+  <h3 class="section-title">
+    Interior Empty Spaces: {materials.empties} ({Math.round(
+      (materials.empties / volumeNum) * 100,
+    )}%)
+  </h3>
+  <p class="section-subtitle pb-6">Percentage calculated using interior space, ignoring casings.</p>
 {:else}
   <h3 class="section-title text-red-400">Error: No Materials!</h3>
   <p class="text-text text-lg font-bold">
