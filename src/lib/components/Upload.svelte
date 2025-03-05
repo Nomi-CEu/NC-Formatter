@@ -6,6 +6,7 @@
   import store from "$lib/stores.svelte.js";
 
   let { children } = $props();
+  let maxFileCharLength = 100_000;
 
   let fileValue = $state();
   let files: FileList | undefined = $state();
@@ -61,11 +62,20 @@
 
   {#if store.rawText}
     <div transition:fade>
-      <div class="border-primary/50 max-h-[36rem] overflow-y-scroll rounded-lg border-4">
-        <Highlight language={json} code={store.rawText} let:highlighted>
-          <LineNumbers {highlighted} wrapLines />
-        </Highlight>
-      </div>
+      {#if store.rawText.length > maxFileCharLength}
+        <p class="text-text text-lg font-bold">
+          File too large! Cannot display preview. However, the formatter should still work!
+        </p>
+        <p class="text-text/50 mt-1 italic">
+          Preview is limited to a maximum of 100,000 characters, for performance reasons.
+        </p>
+      {:else}
+        <div class="border-primary/50 max-h-[36rem] overflow-y-scroll rounded-lg border-4">
+          <Highlight language={json} code={store.rawText} let:highlighted>
+            <LineNumbers {highlighted} wrapLines />
+          </Highlight>
+        </div>
+      {/if}
       {@render children()}
     </div>
   {/if}
