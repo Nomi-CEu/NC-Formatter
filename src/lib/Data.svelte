@@ -1,58 +1,45 @@
 <script lang="ts">
-  import store from "./stores.svelte";
-  import { idToMapState, type Material } from "$lib/data";
+  import store, { volume } from "./stores.svelte";
+  import { getMaterials } from "$lib/data";
 
-  let empties = $state(0);
-  let materials: Material[] = $state([]);
+  let volumeNum = $derived(volume(store));
 
-  $effect(() => {
-    const result: Map<number, Material> = new Map<number, Material>();
+  let materials = $derived.by(() => {
+    const result = getMaterials(store.data?.states || [[[]]]);
+    result.materials.sort((a, b) => b.amount - a.amount);
 
-    for (const xRow of store.data?.states || [[[]]]) {
-      for (const zRow of xRow) {
-        for (const id of zRow) {
-          const data = idToMapState.at(id);
-          if (!data) continue;
-
-          if (result.has(id)) {
-            const existing = result.get(id);
-            if (existing) existing.amount++;
-          } else result.set(id, { id, display: data[0], amount: 1 });
-        }
-      }
-    }
-
-    materials = [...result.values()].sort((a, b) => b.amount - a.amount);
-    empties = result.get(0)?.amount || 0;
+    return result;
   });
-
-  let cubicVolume = $derived(
-    (store.data?.dim[0] || 0) * (store.data?.dim[1] || 0) * (store.data?.dim[2] || 0),
-  );
 </script>
 
 <h3 class="section-title">General Data:</h3>
-<p class="text-text">
-  <span class="font-bold">Imported Type:</span>
-  {store.dataType} JSON<br />
+<ul class="text-text list-disc">
+  <li class="ml-4 list-item">
+    <span class="font-bold">Imported Type:</span>
+    {store.dataType} JSON
+  </li>
 
-  <span class="font-bold">Dimensions:</span>
-  {store.data?.dim[0]} x {store.data?.dim[1]} x {store.data?.dim[2]}<br />
+  <li class="ml-4 list-item">
+    <span class="font-bold">Dimensions:</span>
+    {store.data?.dim[0]} x {store.data?.dim[1]} x {store.data?.dim[2]}
+  </li>
 
-  <span class="font-bold">Empty Spaces:</span>
-  {empties} ({Math.round((empties / cubicVolume) * 100)}%)
-</p>
+  <li class="ml-4 list-item">
+    <span class="font-bold">Empty Spaces:</span>
+    {materials.empties} ({Math.round((materials.empties / volumeNum) * 100)}%)
+  </li>
+</ul>
 
-{#if materials && materials.length > 0 && empties !== cubicVolume}
+{#if materials && materials.materials.length > 0}
   <h3 class="section-title">Materials:</h3>
-  <p class="text-text">
-    {#each materials as material, i (material ? material.id : i)}
-      {#if material && material.display !== "Air"}
+  <ul class="text-text list-disc">
+    {#each materials.materials as material (material.display)}
+      <li class="ml-4 list-item">
         <span class="font-bold">{material.display}:</span>
-        {material.amount}<br />
-      {/if}
+        {material.amount}
+      </li>
     {/each}
-  </p>
+  </ul>
 {:else}
   <h3 class="section-title text-red-400">Empty Reactor!</h3>
 {/if}

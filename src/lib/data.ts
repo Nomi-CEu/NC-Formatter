@@ -1,15 +1,25 @@
+import type { NCFormatterStore } from "$lib/stores.svelte";
+
 export interface Data {
   dim: number[];
   states: number[][][];
 }
 
-export interface Options {
-  moderator: "EXACT" | "BERYLLIUM" | "GRAPHITE";
-  activeCooler: boolean;
-  casings: "NONE" | "SOLID" | "TRANSPARENT";
+export enum CasingOptions {
+  NONE = "NONE",
+  SOLID = "SOLID",
+  TRANSPARENT = "TRANSPARENT",
+}
+
+export enum ModeratorOptions {
+  EXACT = "EXACT",
+  GRAPHITE = "GRAPHITE",
+  BERYLLIUM = "BERYLLIUM",
 }
 
 export interface BGExport {
+  // Only set if options change the display (in final build materials)
+  display?: string;
   Name: string;
   Properties?: Record<string, string>;
 }
@@ -34,18 +44,60 @@ export interface NCRPPos {
 }
 
 export interface Material {
-  id: number;
   display: string;
   amount: number;
 }
 
-export type InternalData = [string, (op: Options) => BGExport | undefined];
+export interface Materials {
+  materials: Material[];
+  empties: number;
+}
+
+export type InternalData = [string, (op: NCFormatterStore) => BGExport | undefined];
+
+export function getMaterials(
+  states: number[][][],
+  isEmpty: (id: number, data: InternalData) => boolean = id => id === 0,
+  getDisplay: (data: InternalData) => string = data => data[0],
+): Materials {
+  if (states.length === 0) return { materials: [], empties: 0 };
+
+  const result: Map<string, Material> = new Map<string, Material>();
+  let empties: number = 0;
+
+  for (const xRow of states) {
+    for (const zRow of xRow) {
+      for (const id of zRow) {
+        const data = idToMapState.at(id);
+        if (!data) continue;
+
+        if (isEmpty(id, data)) {
+          empties++;
+          continue;
+        }
+
+        const display = getDisplay(data);
+        if (result.has(display)) {
+          const existing = result.get(display);
+          if (existing) existing.amount++;
+        } else result.set(display, { display, amount: 1 });
+      }
+    }
+  }
+
+  return {
+    materials: [...result.values()],
+    empties,
+  };
+}
 
 const graphiteMod: BGExport = {
+  display: "Graphite Moderator",
   Name: "gregtech:meta_block_compressed_12",
   Properties: { variant: "gregtech__graphite" },
 };
 const berylliumMod: BGExport = {
+  display: "Beryllium Moderator",
   Name: "gregtech:meta_block_compressed_2",
   Properties: { variant: "gregtech__beryllium" },
 };
@@ -60,10 +112,15 @@ const air: InternalData = [
 const moderator = (display: string, preferred: BGExport): InternalData => {
   return [
     display,
-    (op: Options) => {
-      if (op.moderator === "EXACT") return preferred;
-      if (op.moderator === "GRAPHITE") return graphiteMod;
-      if (op.moderator === "BERYLLIUM") return berylliumMod;
+    (op: NCFormatterStore) => {
+      switch (op.moderatorOp) {
+        case ModeratorOptions.EXACT:
+          return preferred;
+        case ModeratorOptions.GRAPHITE:
+          return graphiteMod;
+        case ModeratorOptions.BERYLLIUM:
+          return berylliumMod;
+      }
     },
   ];
 };
@@ -110,8 +167,9 @@ for (const cooler of coolerMap) {
   ];
   idToMapState[cooler[1] + 32] = [
     `Active ${cooler[0]} Cooler`,
-    (op: Options) => {
-      if (op.activeCooler) return { Name: "nuclearcraft:active_cooler" };
+    (op: NCFormatterStore) => {
+      if (op.activeCoolerOp)
+        return { display: "Active Cooler", Name: "nuclearcraft:active_cooler" };
 
       return undefined;
     },
@@ -119,11 +177,8 @@ for (const cooler of coolerMap) {
 }
 
 // 17-18: Moderators (Graphite then Beryllium)
-idToMapState[17] = moderator("Graphite Moderator", graphiteMod);
-idToMapState[18] = moderator("Beryllium Moderator", berylliumMod);
-
-// 19: Casing (Unused, Just Map to Air)
-idToMapState[19] = air;
+idToMapState[17] = moderator(graphiteMod.display || "", graphiteMod);
+idToMapState[18] = moderator(berylliumMod.display || "", berylliumMod);
 
 // Hellrage NC Planner Keys to ID
 export const ncrpToId: Record<string, number> = {

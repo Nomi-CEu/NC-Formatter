@@ -7,7 +7,7 @@ html {
 }
 
 .title {
-  @apply mx-auto mt-8 mb-4 text-center text-2xl font-bold tracking-wide;
+  @apply mx-auto mt-8 mb-3 text-center text-[1.75rem] font-bold tracking-wide;
 }
 
 .subtitle {
@@ -16,6 +16,10 @@ html {
 
 .section-title {
   @apply mt-8 mr-auto mb-2 ml-0 text-left text-2xl font-bold tracking-wide;
+}
+
+.section-subtitle {
+  @apply text-text/70 text-left font-sans italic;
 }
 
 .separator {
@@ -39,7 +43,7 @@ html {
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-secondary;
+  @apply bg-secondary/50;
 }
 
 /* Fonts */
@@ -59,8 +63,8 @@ a {
 @theme {
   --color-fill: rgba(14, 11, 22, 255);
   --color-text: rgba(237, 234, 246, 255);
-  --color-primary: rgba(138, 103, 171,255);
-  --color-secondary: rgba(122, 80, 163,255);
+  --color-primary: rgba(138, 103, 171, 255);
+  --color-secondary: rgba(122, 80, 163, 255);
   --color-accent: rgba(110, 79, 206, 255);
   --color-code: rgba(37, 39, 57, 255);
   --color-normal: rgba(138, 103, 171, 255);

@@ -209,7 +209,7 @@
 </script>
 
 <h2 class="title">Step 2: Validation</h2>
-<p class="subtitle">Please Check that the Imported Reactor Data is Correct.</p>
+<p class="subtitle">Please check the imported reactor data is correct.</p>
 <hr class="separator" />
 {#if errorMsg}
   <h3 class="title !mr-auto !mb-4 !ml-0 !text-left text-red-400">Error:</h3>
