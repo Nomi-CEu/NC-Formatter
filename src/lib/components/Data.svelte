@@ -12,7 +12,7 @@
   });
 </script>
 
-<h3 class="section-title">General Data:</h3>
+<h3 class="section-title">General Types:</h3>
 <ul class="text-text list-disc">
   <li class="ml-4 list-item">
     <span class="font-bold">Imported Type:</span>

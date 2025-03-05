@@ -1,21 +1,14 @@
-import { CasingOptions, type Data, ModeratorOptions } from "./data";
-
-export interface NCFormatterStore {
-  rawText: string;
-  data: Data | undefined;
-  dataType: "Einsteinium" | "Hellrage" | "";
-  casingOp: CasingOptions;
-  moderatorOp: ModeratorOptions;
-  activeCoolerOp: boolean;
-}
+import { CasingOptions, ModeratorOptions, type NCFormatterStore } from "./types";
 
 const store = $state({
   rawText: "",
   data: undefined,
   dataType: "",
-  casingOp: "NONE",
-  moderatorOp: "EXACT",
-  activeCoolerOp: true,
+  options: {
+    casing: CasingOptions.NONE,
+    moderator: ModeratorOptions.EXACT,
+    activeCooler: true,
+  },
 } as NCFormatterStore);
 
 export default store;

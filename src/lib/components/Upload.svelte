@@ -22,7 +22,7 @@
   });
 </script>
 
-<h2 class="title">Step 1: Upload Data</h2>
+<h2 class="title">Step 1: Upload Types</h2>
 <p class="subtitle">
   Accepted: Hellrage JSON Files (from <a href="https://github.com/hellrage/NC-Reactor-Planner"
     >Hellrage</a

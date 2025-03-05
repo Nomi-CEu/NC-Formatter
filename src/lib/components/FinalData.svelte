@@ -1,6 +1,7 @@
 <script lang="ts">
   import store, { volume, surfaceArea } from "$lib/stores.svelte.js";
-  import { CasingOptions, getMaterials, type Materials } from "$lib/data";
+  import { CasingOptions, type Materials } from "$lib/types";
+  import { getMaterials } from "$lib/data";
 
   let volumeNum = $derived(volume(store));
   let surfaceAreaNum = $derived(surfaceArea(store));
@@ -10,18 +11,18 @@
       store.data?.states || [[[]]],
       (id, data) => {
         if (id === 0) return true;
-        return data[1](store) === undefined;
+        return data[1](store.options) === undefined;
       },
       data => {
-        const special = data[1](store)?.display;
+        const special = data[1](store.options)?.display;
         if (special) return special;
         return data[0];
       },
     );
 
-    if (store.casingOp !== CasingOptions.NONE) {
+    if (store.options.casing !== CasingOptions.NONE) {
       result.materials.push({
-        display: `${store.casingOp === CasingOptions.TRANSPARENT ? "Transparent " : ""}Fission Reactor Casing`,
+        display: `${store.options.casing === CasingOptions.TRANSPARENT ? "Transparent " : ""}Fission Reactor Casing`,
         amount: surfaceAreaNum,
       });
     }
@@ -32,7 +33,7 @@
 </script>
 
 {#if materials && materials.materials.length > 0}
-  <h2 class="title !mt-12">Step 4: Final Data Check:</h2>
+  <h2 class="title !mt-12">Step 4: Final Types Check:</h2>
   <p class="subtitle">Please check all the final export data is correct.</p>
   <hr class="separator" />
   <h3 class="section-title">Final Materials:</h3>

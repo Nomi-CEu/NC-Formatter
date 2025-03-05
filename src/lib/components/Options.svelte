@@ -1,7 +1,7 @@
 <script lang="ts">
   import store from "$lib/stores.svelte.js";
-  import { CasingOptions } from "$lib/data";
-  import { ModeratorOptions } from "$lib/data.js";
+  import { CasingOptions } from "$lib/types";
+  import { ModeratorOptions } from "$lib/types.js";
 
   let radioStorage: Record<string, string> = $state({
     casing: CasingOptions.NONE,
@@ -9,8 +9,9 @@
   });
 
   $effect(() => {
-    store.casingOp = CasingOptions[radioStorage.casing as keyof typeof CasingOptions];
-    store.moderatorOp = ModeratorOptions[radioStorage.moderator as keyof typeof ModeratorOptions];
+    store.options.casing = CasingOptions[radioStorage.casing as keyof typeof CasingOptions];
+    store.options.moderator =
+      ModeratorOptions[radioStorage.moderator as keyof typeof ModeratorOptions];
   });
 </script>
 
@@ -78,7 +79,7 @@
     type="checkbox"
     name="activeCooler"
     class="bg-secondary/50 checked:bg-primary mr-[0.1875rem] mb-1 rounded-sm border-transparent ring-transparent inset-ring-transparent ring-offset-transparent transition-colors outline-none"
-    bind:checked={store.activeCoolerOp}
+    bind:checked={store.options.activeCooler}
   />
   Active Coolers <span class="section-subtitle">(If not selected, air will replace them.)</span>
 </label>

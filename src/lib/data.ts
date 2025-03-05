@@ -1,59 +1,11 @@
-import type { NCFormatterStore } from "$lib/stores.svelte";
-
-export interface Data {
-  dim: number[];
-  states: number[][][];
-}
-
-export enum CasingOptions {
-  NONE = "NONE",
-  SOLID = "SOLID",
-  TRANSPARENT = "TRANSPARENT",
-}
-
-export enum ModeratorOptions {
-  EXACT = "EXACT",
-  GRAPHITE = "GRAPHITE",
-  BERYLLIUM = "BERYLLIUM",
-}
-
-export interface BGExport {
-  // Only set if options change the display (in final build materials)
-  display?: string;
-  Name: string;
-  Properties?: Record<string, string>;
-}
-
-export interface EinsteiniumSchema {
-  metadata: {
-    validationCode: string;
-    dimensions: number[];
-  };
-  content: number[][][];
-}
-
-export interface NCRPSchema {
-  InteriorDimensions: NCRPPos;
-  CompressedReactor: Record<string, NCRPPos[]>;
-}
-
-export interface NCRPPos {
-  X: number;
-  Y: number;
-  Z: number;
-}
-
-export interface Material {
-  display: string;
-  amount: number;
-}
-
-export interface Materials {
-  materials: Material[];
-  empties: number;
-}
-
-export type InternalData = [string, (op: NCFormatterStore) => BGExport | undefined];
+import type { Options } from "$lib/types";
+import {
+  type BGExport,
+  type InternalData,
+  type Material,
+  type Materials,
+  ModeratorOptions,
+} from "$lib/types";
 
 export function getMaterials(
   states: number[][][],
@@ -112,8 +64,8 @@ const air: InternalData = [
 const moderator = (display: string, preferred: BGExport): InternalData => {
   return [
     display,
-    (op: NCFormatterStore) => {
-      switch (op.moderatorOp) {
+    (op: Options) => {
+      switch (op.moderator) {
         case ModeratorOptions.EXACT:
           return preferred;
         case ModeratorOptions.GRAPHITE:
@@ -167,9 +119,8 @@ for (const cooler of coolerMap) {
   ];
   idToMapState[cooler[1] + 32] = [
     `Active ${cooler[0]} Cooler`,
-    (op: NCFormatterStore) => {
-      if (op.activeCoolerOp)
-        return { display: "Active Cooler", Name: "nuclearcraft:active_cooler" };
+    (op: Options) => {
+      if (op.activeCooler) return { display: "Active Cooler", Name: "nuclearcraft:active_cooler" };
 
       return undefined;
     },

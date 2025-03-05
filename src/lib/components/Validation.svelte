@@ -2,7 +2,8 @@
   import store from "../stores.svelte.js";
   import einsteinium from "../../validators/einsteinium.json";
   import ncrp from "../../validators/ncrp.json";
-  import { type EinsteiniumSchema, idToMapState, type NCRPSchema, ncrpToId } from "../data";
+  import { type EinsteiniumSchema, type NCRPSchema } from "$lib/types";
+  import { idToMapState, ncrpToId } from "$lib/data";
   import { fade } from "svelte/transition";
   import Ajv from "ajv";
 
@@ -100,7 +101,7 @@
       }
     }
 
-    // Valid: Set Data
+    // Valid: Set Types
     store.data = { dim: foundData.metadata.dimensions, states: foundData.content };
     success = true;
     store.dataType = "Einsteinium";
@@ -168,7 +169,7 @@
       }
     }
 
-    // Valid: Set Data
+    // Valid: Set Types
     store.data = { dim: [x, y, z], states };
     success = true;
     store.dataType = "Hellrage";
