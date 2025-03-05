@@ -39,7 +39,7 @@ html {
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-accent;
+  @apply bg-secondary;
 }
 
 /* Fonts */
@@ -59,8 +59,8 @@ a {
 @theme {
   --color-fill: rgba(14, 11, 22, 255);
   --color-text: rgba(237, 234, 246, 255);
-  --color-primary: rgba(178, 168, 209, 255);
-  --color-secondary: rgba(65, 47, 120, 255);
+  --color-primary: rgba(138, 103, 171,255);
+  --color-secondary: rgba(122, 80, 163,255);
   --color-accent: rgba(110, 79, 206, 255);
   --color-code: rgba(37, 39, 57, 255);
   --color-normal: rgba(138, 103, 171, 255);
