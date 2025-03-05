@@ -1,5 +1,5 @@
 <script lang="ts">
-  import store, { volume, surfaceArea } from "$lib/stores.svelte";
+  import store, { volume, surfaceArea } from "$lib/stores.svelte.js";
   import { CasingOptions, getMaterials, type Materials } from "$lib/data";
 
   let volumeNum = $derived(volume(store));

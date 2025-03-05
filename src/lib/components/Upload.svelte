@@ -3,7 +3,7 @@
   import json from "svelte-highlight/languages/json";
   import "svelte-highlight/styles/tokyo-night-dark.css";
   import { fade } from "svelte/transition";
-  import store from "$lib/stores.svelte";
+  import store from "$lib/stores.svelte.js";
 
   let { children } = $props();
 

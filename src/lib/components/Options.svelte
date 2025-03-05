@@ -1,5 +1,5 @@
 <script lang="ts">
-  import store from "$lib/stores.svelte";
+  import store from "$lib/stores.svelte.js";
   import { CasingOptions } from "$lib/data";
   import { ModeratorOptions } from "$lib/data.js";
 

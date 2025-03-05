@@ -1,5 +1,5 @@
 <script lang="ts">
-  import store, { volume } from "./stores.svelte";
+  import store, { volume } from "../stores.svelte.js";
   import { getMaterials } from "$lib/data";
 
   let volumeNum = $derived(volume(store));

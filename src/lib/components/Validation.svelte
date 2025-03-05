@@ -1,8 +1,8 @@
 <script lang="ts">
-  import store from "./stores.svelte";
-  import einsteinium from "../validators/einsteinium.json";
-  import ncrp from "../validators/ncrp.json";
-  import { type EinsteiniumSchema, idToMapState, type NCRPSchema, ncrpToId } from "./data";
+  import store from "../stores.svelte.js";
+  import einsteinium from "../../validators/einsteinium.json";
+  import ncrp from "../../validators/ncrp.json";
+  import { type EinsteiniumSchema, idToMapState, type NCRPSchema, ncrpToId } from "../data";
   import { fade } from "svelte/transition";
   import Ajv from "ajv";
 
