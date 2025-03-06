@@ -138,7 +138,7 @@
 </p>
 <hr class="separator" />
 
-<div class="border-primary/50 bg-code relative rounded-lg border-4">
+<div class="border-primary/50 bg-code relative rounded-lg border-2 pb-1">
   <p class="my-2 ml-4 font-bold">Exported Building Gadgets String</p>
   <button
     class="text-skin-base absolute top-0 right-10 flex rounded px-2 py-2 text-xs leading-4 font-medium"
