@@ -29,7 +29,7 @@ html {
 }
 
 .separator {
-  @apply border-primary mt-6 mb-8 rounded-2xl border-3;
+  @apply border-accent mt-6 mb-8 rounded-2xl border-1;
 }
 
 /* Scrollbar */
@@ -40,7 +40,7 @@ html {
 
 /* width */
 ::-webkit-scrollbar {
-  @apply w-3;
+  @apply h-3 w-3;
 }
 
 /* Track */
@@ -50,12 +50,12 @@ html {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  @apply bg-primary;
+  @apply bg-primary/80;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-secondary/50;
+  @apply bg-secondary/50
 }
 
 /* Fonts */
