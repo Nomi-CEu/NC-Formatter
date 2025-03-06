@@ -12,7 +12,7 @@
   let maxFileCharLength = 100_000;
 
   let fileName = $state("");
-  let api: FileUploadApi = $state();
+  let api: FileUploadApi | undefined = $state();
 
   function onChange(files: File[]) {
     store.rawText = "";
