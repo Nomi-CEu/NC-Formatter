@@ -1,7 +1,9 @@
 <script lang="ts">
   import store, { volume, surfaceArea } from "$lib/stores.svelte.js";
   import { CasingOptions, type Materials } from "$lib/types";
-  import { getMaterials } from "$lib/data";
+  import { casingExportId, getMaterials } from "$lib/data";
+
+  let { children } = $props();
 
   let volumeNum = $derived(volume(store));
   let surfaceAreaNum = $derived(surfaceArea(store));
@@ -18,10 +20,12 @@
         if (special) return special;
         return data[0];
       },
+      (id, data) => data[1](store.options)?.exportId || id,
     );
 
     if (store.options.casing !== CasingOptions.NONE) {
       result.materials.push({
+        exportId: casingExportId,
         display: `${store.options.casing === CasingOptions.TRANSPARENT ? "Transparent " : ""}Fission Reactor Casing`,
         amount: surfaceAreaNum,
       });
@@ -33,13 +37,13 @@
 </script>
 
 {#if materials && materials.materials.length > 0}
-  <h2 class="title !mt-12">Step 4: Final Types Check:</h2>
+  <h2 class="title !mt-12">Step 4: Final Types Check</h2>
   <p class="subtitle">Please check all the final export data is correct.</p>
   <hr class="separator" />
   <h3 class="section-title">Final Materials:</h3>
   <p class="section-subtitle pb-6">Please check the final materials are correct.</p>
   <ul class="text-text list-disc">
-    {#each materials.materials as material (material.display)}
+    {#each materials.materials as material (material.exportId)}
       <li class="ml-4 list-item">
         <span class="font-bold">{material.display}:</span>
         {material.amount}
@@ -53,6 +57,8 @@
     )}%)
   </h3>
   <p class="section-subtitle pb-6">Percentage calculated using interior space, ignoring casings.</p>
+
+  {@render children()}
 {:else}
   <h3 class="section-title text-red-400">Error: No Materials!</h3>
   <p class="text-text text-lg font-bold">

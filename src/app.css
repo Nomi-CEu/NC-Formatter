@@ -1,5 +1,11 @@
 @import "tailwindcss";
+@import "@skeletonlabs/skeleton";
+@import "@skeletonlabs/skeleton/optional/presets";
+@import "@skeletonlabs/skeleton/themes/cerberus";
+
 @plugin '@tailwindcss/forms';
+
+@source '../node_modules/@skeletonlabs/skeleton-svelte/dist';
 
 /* ===== scrollbar ===== */
 html {
@@ -24,6 +30,12 @@ html {
 
 .separator {
   @apply border-primary mt-6 mb-8 rounded-2xl border-3;
+}
+
+/* Scrollbar */
+:root {
+  scrollbar-width: initial;
+  scrollbar-color: var(--color-primary);
 }
 
 /* width */
@@ -65,7 +77,7 @@ a {
   --color-text: rgba(237, 234, 246, 255);
   --color-primary: rgba(138, 103, 171, 255);
   --color-secondary: rgba(122, 80, 163, 255);
-  --color-accent: rgba(110, 79, 206, 255);
+  --color-accent: rgba(153, 115, 189, 255);
   --color-code: rgba(37, 39, 57, 255);
   --color-normal: rgba(138, 103, 171, 255);
   --color-expert: rgba(96, 0, 0, 255);

@@ -11,10 +11,11 @@ export function getMaterials(
   states: number[][][],
   isEmpty: (id: number, data: InternalData) => boolean = id => id === 0,
   getDisplay: (data: InternalData) => string = data => data[0],
+  exportId: (id: number, data: InternalData) => number = (id, data) => id,
 ): Materials {
   if (states.length === 0) return { materials: [], empties: 0 };
 
-  const result: Map<string, Material> = new Map<string, Material>();
+  const result: Map<number, Material> = new Map<number, Material>();
   let empties: number = 0;
 
   for (const xRow of states) {
@@ -29,10 +30,11 @@ export function getMaterials(
         }
 
         const display = getDisplay(data);
-        if (result.has(display)) {
-          const existing = result.get(display);
+        const effectiveId = exportId(id, data);
+        if (result.has(effectiveId)) {
+          const existing = result.get(effectiveId);
           if (existing) existing.amount++;
-        } else result.set(display, { display, amount: 1 });
+        } else result.set(effectiveId, { exportId: effectiveId, display, amount: 1 });
       }
     }
   }
@@ -45,12 +47,14 @@ export function getMaterials(
 
 const graphiteMod: BGExport = {
   display: "Graphite Moderator",
-  Name: "gregtech:meta_block_compressed_12",
+  exportId: 17,
+  Name: "gregtech:meta_block_compressed_21",
   Properties: { variant: "gregtech__graphite" },
 };
 const berylliumMod: BGExport = {
   display: "Beryllium Moderator",
-  Name: "gregtech:meta_block_compressed_2",
+  exportId: 18,
+  Name: "gregtech:meta_block_compressed_0",
   Properties: { variant: "gregtech__beryllium" },
 };
 
@@ -61,9 +65,9 @@ const air: InternalData = [
   },
 ];
 
-const moderator = (display: string, preferred: BGExport): InternalData => {
+const moderator = (preferred: BGExport): InternalData => {
   return [
-    display,
+    preferred.display || "",
     (op: Options) => {
       switch (op.moderator) {
         case ModeratorOptions.EXACT:
@@ -106,6 +110,14 @@ export const idToMapState: (InternalData | undefined)[] = [
   ],
 ];
 
+// 17-18: Moderators (Graphite then Beryllium)
+idToMapState[17] = moderator(graphiteMod);
+idToMapState[18] = moderator(berylliumMod);
+
+export const casingExportId = 32;
+
+export const activeCoolerExportId = 33;
+
 // Add Coolers and Active Coolers (IDs: 2-16, 34-48)
 for (const cooler of coolerMap) {
   idToMapState[cooler[1]] = [
@@ -120,16 +132,17 @@ for (const cooler of coolerMap) {
   idToMapState[cooler[1] + 32] = [
     `Active ${cooler[0]} Cooler`,
     (op: Options) => {
-      if (op.activeCooler) return { display: "Active Cooler", Name: "nuclearcraft:active_cooler" };
+      if (op.activeCooler)
+        return {
+          display: "Active Cooler",
+          exportId: activeCoolerExportId,
+          Name: "nuclearcraft:active_cooler",
+        };
 
       return undefined;
     },
   ];
 }
-
-// 17-18: Moderators (Graphite then Beryllium)
-idToMapState[17] = moderator(graphiteMod.display || "", graphiteMod);
-idToMapState[18] = moderator(berylliumMod.display || "", berylliumMod);
 
 // Hellrage NC Planner Keys to ID
 export const ncrpToId: Record<string, number> = {

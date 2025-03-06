@@ -4,26 +4,32 @@
   import "svelte-highlight/styles/tokyo-night-dark.css";
   import { fade } from "svelte/transition";
   import store from "$lib/stores.svelte.js";
+  import { FileUpload } from "@skeletonlabs/skeleton-svelte";
+  import FileCode from "lucide-svelte/icons/file-code";
+  import Upload from "lucide-svelte/icons/upload";
+  import X from "lucide-svelte/icons/x";
 
   let { children } = $props();
   let maxFileCharLength = 100_000;
 
-  let fileValue = $state();
-  let files: FileList | undefined = $state();
+  let fileName = $state("");
 
-  $effect(() => {
+  function onChange(files: File[]) {
+    store.rawText = "";
+    fileName = "";
     if (files) {
-      const file = files.item(0);
+      const file = files.at(0);
       if (file) {
+        fileName = file.name;
         file.text().then(str => {
           store.rawText = str;
         });
       }
     }
-  });
+  }
 </script>
 
-<h2 class="title">Step 1: Upload Types</h2>
+<h2 class="title">Step 1: Upload Data</h2>
 <p class="subtitle">
   Accepted: Hellrage JSON Files (from <a href="https://github.com/hellrage/NC-Reactor-Planner"
     >Hellrage</a
@@ -35,47 +41,39 @@
 <hr class="separator" />
 
 <div class="mb-10 grid-cols-2 gap-10">
-  <div class="flex">
-    <label for="file-data" class=" bg-primary/75 font-title mr-auto mb-5 rounded-2xl p-4 font-bold"
-      >Select From File...</label
-    >
-    <input
-      class="hidden"
-      accept="application.JSON,.json"
-      type="file"
-      id="file-data"
-      name="hellrage_json"
-      bind:files
-      bind:value={fileValue}
-      onclick={() => {
-        fileValue = undefined; // Make sure we can select a file with the same filename again
-      }}
-    />
-    <button
-      class="bg-secondary/50 font-title mb-5 ml-auto rounded-2xl p-4 font-bold"
-      onclick={() => {
-        store.rawText = "";
-        fileValue = undefined; // Make sure we can select a file with the same filename again
-      }}>Clear</button
-    >
-  </div>
+  <FileUpload
+    name="example"
+    accept="application.JSON,.json"
+    maxFiles={1}
+    subtext="Attach up to 1 file."
+    onFileChange={details => onChange(details.acceptedFiles)}
+    classes="w-full mb-10"
+  >
+    {#snippet iconInterface()}<Upload class="size-8" />{/snippet}
+    {#snippet iconFile()}<FileCode class="size-5" />{/snippet}
+    {#snippet iconFileRemove()}<X class="size-6" />{/snippet}
+  </FileUpload>
 
   {#if store.rawText}
     <div transition:fade>
-      {#if store.rawText.length > maxFileCharLength}
-        <p class="text-text text-lg font-bold">
-          File too large! Cannot display preview. However, the formatter should still work!
-        </p>
-        <p class="text-text/50 mt-1 italic">
-          Preview is limited to a maximum of 100,000 characters, for performance reasons.
-        </p>
-      {:else}
-        <div class="border-primary/50 max-h-[36rem] overflow-y-scroll rounded-lg border-4">
-          <Highlight language={json} code={store.rawText} let:highlighted>
-            <LineNumbers {highlighted} wrapLines />
-          </Highlight>
-        </div>
-      {/if}
+      <h3 class="section-title !mb-5">Preview:</h3>
+      <div class="border-primary/50 bg-code rounded-lg border-4">
+        <p class="my-2 ml-4 font-bold">{fileName || "upload.json"}</p>
+        {#if store.rawText.length > maxFileCharLength}
+          <div class="bg-[#1a1b26] py-5 pl-5">
+            <p class="text-text text-lg font-bold">File too large to display preview.</p>
+            <p class="text-text/50 mt-1 italic">
+              Preview is limited to a maximum of 100,000 characters, for performance reasons.
+            </p>
+          </div>
+        {:else}
+          <div class=" max-h-96 overflow-y-scroll">
+            <Highlight language={json} code={store.rawText} let:highlighted>
+              <LineNumbers {highlighted} wrapLines />
+            </Highlight>
+          </div>
+        {/if}
+      </div>
       {@render children()}
     </div>
   {/if}

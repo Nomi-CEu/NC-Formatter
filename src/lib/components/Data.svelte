@@ -33,7 +33,7 @@
 {#if materials && materials.materials.length > 0}
   <h3 class="section-title">Materials:</h3>
   <ul class="text-text list-disc">
-    {#each materials.materials as material (material.display)}
+    {#each materials.materials as material (material.exportId)}
       <li class="ml-4 list-item">
         <span class="font-bold">{material.display}:</span>
         {material.amount}

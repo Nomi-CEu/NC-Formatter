@@ -31,6 +31,8 @@ export enum ModeratorOptions {
 export interface BGExport {
   // Only set if options change the display (in final build materials)
   display?: string;
+  // Only set if options change the effective id (in BG Export)
+  exportId?: number;
   Name: string;
   Properties?: Record<string, string>;
 }
@@ -56,6 +58,7 @@ export interface NCRPPos {
 
 export interface Material {
   display: string;
+  exportId: number;
   amount: number;
 }
 

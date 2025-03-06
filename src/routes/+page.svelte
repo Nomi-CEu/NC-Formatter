@@ -4,6 +4,7 @@
   import Data from "$lib/components/Data.svelte";
   import Options from "$lib/components/Options.svelte";
   import FinalData from "$lib/components/FinalData.svelte";
+  import Export from "$lib/components/Export.svelte";
 </script>
 
 <main class="text-text m-auto max-w-4xl pb-10">
@@ -16,7 +17,9 @@
     <Validation>
       <Data />
       <Options />
-      <FinalData />
+      <FinalData>
+        <Export />
+      </FinalData>
     </Validation>
   </Upload>
 </main>
