@@ -11,7 +11,7 @@ export function getMaterials(
   states: number[][][],
   isEmpty: (id: number, data: InternalData) => boolean = id => id === 0,
   getDisplay: (data: InternalData) => string = data => data[0],
-  exportId: (id: number, data: InternalData) => number = (id, data) => id,
+  exportId: (id: number, data: InternalData) => number = id => id,
 ): Materials {
   if (states.length === 0) return { materials: [], empties: 0 };
 
@@ -48,14 +48,12 @@ export function getMaterials(
 const graphiteMod: BGExport = {
   display: "Graphite Moderator",
   exportId: 17,
-  Name: "gregtech:meta_block_compressed_21",
-  Properties: { variant: "gregtech__graphite" },
+  data: 'Name: "gregtech:meta_block_compressed_21", Properties: { variant: "gregtech__graphite" }',
 };
 const berylliumMod: BGExport = {
   display: "Beryllium Moderator",
   exportId: 18,
-  Name: "gregtech:meta_block_compressed_0",
-  Properties: { variant: "gregtech__beryllium" },
+  data: 'Name: "gregtech:meta_block_compressed_0", Properties: { variant: "gregtech__beryllium" }',
 };
 
 const air: InternalData = [
@@ -105,7 +103,7 @@ export const idToMapState: (InternalData | undefined)[] = [
   [
     "Fuel Cell", // 1: Reactor Cell
     () => {
-      return { Name: "nuclearcraft:cell_block" };
+      return { data: 'Name: "nuclearcraft:cell_block"' };
     },
   ],
 ];
@@ -124,8 +122,7 @@ for (const cooler of coolerMap) {
     `${cooler[0]} Cooler`,
     () => {
       return {
-        Name: "nuclearcraft:cooler",
-        Properties: { type: cooler[0].toLowerCase() },
+        data: `Name: "nuclearcraft:cooler", Properties: { type: "${cooler[0].toLowerCase()}" }`,
       };
     },
   ];
@@ -136,7 +133,7 @@ for (const cooler of coolerMap) {
         return {
           display: "Active Cooler",
           exportId: activeCoolerExportId,
-          Name: "nuclearcraft:active_cooler",
+          data: 'Name: "nuclearcraft:active_cooler"',
         };
 
       return undefined;

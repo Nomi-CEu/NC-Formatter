@@ -32,6 +32,14 @@ html {
   @apply border-accent mt-6 mb-8 rounded-2xl border-1;
 }
 
+.display-button {
+  @apply text-text absolute top-0 right-1 flex rounded px-2 py-2 text-xs leading-4 font-medium;
+}
+
+.display-logo {
+  @apply stroke-text hover:stroke-accent z-10 h-6 w-6 transition-all duration-[300ms] ease-in-out;
+}
+
 /* Scrollbar */
 :root {
   scrollbar-width: initial;
@@ -55,7 +63,7 @@ html {
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-secondary/80
+  @apply bg-secondary/80;
 }
 
 /* Fonts */
@@ -78,7 +86,9 @@ a {
   --color-primary: rgba(138, 103, 171, 255);
   --color-secondary: rgba(122, 80, 163, 255);
   --color-accent: rgba(153, 115, 189, 255);
-  --color-code: rgba(37, 39, 57, 255);
+  --color-code-title: rgba(37, 39, 57, 255);
+  --color-code: rgba(26, 27, 38, 255);
+  --color-copy-success: rgba(114, 204, 80, 255);
   --color-normal: rgba(138, 103, 171, 255);
   --color-expert: rgba(96, 0, 0, 255);
   --font-title: Geologica, monospace;

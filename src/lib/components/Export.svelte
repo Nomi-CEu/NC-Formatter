@@ -2,14 +2,11 @@
   import store, { surfaceArea } from "$lib/stores.svelte";
   import { type BGExport, CasingOptions } from "$lib/types";
   import { casingExportId, idToMapState } from "$lib/data";
-  import json from "svelte-highlight/languages/json";
-  import Highlight, { LineNumbers } from "svelte-highlight";
   import Copy from "lucide-svelte/icons/copy";
   import Check from "lucide-svelte/icons/check";
   import Save from "lucide-svelte/icons/save";
   import FileSaver from "file-saver";
-
-  let maxFileCharLength = 100_000;
+  import Preview from "$lib/components/Preview.svelte";
 
   // Scalars for each dimension, multiplied with coords to create BG pos array.
   const dimensionScalars = [65536, 256, 1];
@@ -84,23 +81,19 @@
       if (store.options.casing === CasingOptions.SOLID) {
         materials.set(casingExportId, {
           exportId: casingExportId,
-          Name: "nuclearcraft:fission_block",
-          Properties: { type: "casing" },
+          data: 'Name: "nuclearcraft:fission_block", Properties: { type: "casing" }',
         });
       } else {
         materials.set(casingExportId, {
           exportId: casingExportId,
-          Name: "nuclearcraft:reactor_casing_transparent",
+          data: 'Name: "nuclearcraft:reactor_casing_transparent"',
         });
       }
     }
 
     const materialsString = [
       ...materials.values().map((material): string => {
-        let stateString = `Name: "${material.Name}"`;
-        if (material.Properties)
-          stateString = stateString + `, Properties:${JSON.stringify(material.Properties)}`;
-        return `{mapSlot: ${material.exportId || 0}s, mapState: {${stateString}}}`;
+        return `{mapSlot: ${material.exportId || 0}s, mapState: {${material.data}}}`;
       }),
     ].join(", ");
 
@@ -128,6 +121,11 @@
 
     setTimeout(() => (displayTick = false), 1000);
   }
+
+  function onSaveClicked() {
+    const blob = new Blob([outputString], { type: "text/plain;charset=utf-8" });
+    FileSaver.saveAs(blob, "bg-export-string.txt");
+  }
 </script>
 
 <h2 class="title">Step 5: Output String</h2>
@@ -138,45 +136,15 @@
 </p>
 <hr class="separator" />
 
-<div class="border-primary/50 bg-code relative rounded-lg border-2 pb-1">
-  <p class="my-2 ml-4 font-bold">Exported Building Gadgets String</p>
-  <button
-    class="text-skin-base absolute top-0 right-10 flex rounded px-2 py-2 text-xs leading-4 font-medium"
-    aria-label="save"
-    onclick={() => {
-      const blob = new Blob([outputString], { type: "text/plain;charset=utf-8" });
-      FileSaver.saveAs(blob, "bg-export-string.txt");
-    }}
-  >
-    <Save
-      class="stroke-text hover:stroke-accent z-10 h-6 w-6 transition-all duration-[300ms] ease-in-out"
-    />
+<Preview title="Exported Building Gadgets String" display={displayString}>
+  <button class="display-button !right-10" aria-label="save" onclick={onSaveClicked}>
+    <Save class="display-logo" />
   </button>
-  <button
-    class="text-skin-base absolute top-0 right-1 flex rounded px-2 py-2 text-xs leading-4 font-medium"
-    aria-label="copy"
-    onclick={onCopyClicked}
-  >
+  <button class="display-button" aria-label="copy" onclick={onCopyClicked}>
     {#if displayTick}
-      <Check color="#72CC50" class="h-6 w-6" />
+      <Check class="stroke-copy-success h-6 w-6" />
     {:else}
-      <Copy
-        class="stroke-text hover:stroke-accent z-10 h-6 w-6 transition-all duration-[300ms] ease-in-out"
-      />
+      <Copy class="display-logo" />
     {/if}
   </button>
-  {#if store.rawText.length > maxFileCharLength}
-    <div class="bg-[#1a1b26] py-5 pl-5">
-      <p class="text-text text-lg font-bold">File too large to display preview.</p>
-      <p class="text-text/50 mt-1 italic">
-        Preview is limited to a maximum of 100,000 characters, for performance reasons.
-      </p>
-    </div>
-  {:else}
-    <div class="max-h-96 overflow-y-scroll">
-      <Highlight language={json} code={displayString} let:highlighted>
-        <LineNumbers {highlighted} wrapLines />
-      </Highlight>
-    </div>
-  {/if}
-</div>
+</Preview>

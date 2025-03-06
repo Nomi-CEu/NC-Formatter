@@ -33,8 +33,7 @@ export interface BGExport {
   display?: string;
   // Only set if options change the effective id (in BG Export)
   exportId?: number;
-  Name: string;
-  Properties?: Record<string, string>;
+  data: string;
 }
 
 export interface EinsteiniumSchema {
