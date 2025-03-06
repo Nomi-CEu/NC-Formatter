@@ -55,7 +55,7 @@ html {
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-secondary/50
+  @apply bg-secondary/80
 }
 
 /* Fonts */
