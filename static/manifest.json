@@ -1,0 +1,13 @@
+{
+  "name": "Nomi-CEu NuclearCraft Formatter",
+  "short_name": "NC Formatter",
+  "icons": [
+    {
+      "src": "google-touch-icon.png",
+      "sizes": "512x512"
+    }
+  ],
+  "background_color": "#0e0b16",
+  "theme_color": "#0e0b16",
+  "display": "fullscreen"
+}
