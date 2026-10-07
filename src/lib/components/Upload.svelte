@@ -42,7 +42,8 @@
 <p class="subtitle">
   Accepted: Hellrage JSON Files (from <a href="https://github.com/hellrage/NC-Reactor-Planner"
     >Hellrage</a
-  >
+  >,
+  <a href="https://github.com/ThizThizzyDizzy/nc-reactor-generator">Thiz's Planner</a>
   or
   <a href="https://leu-235.com/">LEU-235</a>),
   <a href="https://balam314.github.io/Einsteinium/">Einsteinium</a> JSON Files

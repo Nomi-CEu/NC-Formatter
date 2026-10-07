@@ -3,7 +3,7 @@
   import einsteinium from "../../validators/einsteinium.json";
   import ncrp from "../../validators/ncrp.json";
   import { type EinsteiniumSchema, type NCRPSchema } from "$lib/types";
-  import { idToMapState, ncrpToId } from "$lib/data";
+  import { idToMapState, ncrpIgnore, ncrpToId } from "$lib/data";
   import { fade } from "svelte/transition";
   import Ajv from "ajv";
 
@@ -147,6 +147,8 @@
 
     // Validate Content Positions and Content Names
     for (const key of Object.keys(foundData.CompressedReactor)) {
+      if (ncrpIgnore.has(key)) continue;
+
       if (!(key in ncrpToId)) {
         errorMsg = "Invalid Reactor Content!";
         errorReason = `Invalid type '${key}' in content.`;
@@ -154,8 +156,8 @@
       }
 
       const id = ncrpToId[key];
-      const item = foundData.CompressedReactor[key];
-      for (const pos of item) {
+      const positions = foundData.CompressedReactor[key];
+      for (const pos of positions) {
         if (!validatePos(pos.X, "X", x)) return false;
         if (!validatePos(pos.Y, "Y", y)) return false;
         if (!validatePos(pos.Z, "Z", z)) return false;

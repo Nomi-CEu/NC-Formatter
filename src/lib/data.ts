@@ -116,6 +116,21 @@ export const casingExportId = 32;
 
 export const activeCoolerExportId = 33;
 
+// Generic Active Cooler (ID 20; Used for Thiz' Reactor Planner Only)
+idToMapState[20] = [
+  "Active Cooler",
+  (op: Options) => {
+    if (op.activeCooler)
+      return {
+        display: "Active Cooler",
+        exportId: activeCoolerExportId,
+        data: 'Name: "nuclearcraft:active_cooler"',
+      };
+
+    return undefined;
+  },
+];
+
 // Add Coolers and Active Coolers (IDs: 2-16, 34-48)
 for (const cooler of coolerMap) {
   idToMapState[cooler[1]] = [
@@ -141,11 +156,21 @@ for (const cooler of coolerMap) {
   ];
 }
 
+// Keys in Hellrage Format to ignore
+// (Exported by Thiz' Reactor Planner; seems to always have no data; and we don't support)
+export const ncrpIgnore: Set<string> = new Set<string>([
+  "FissionController",
+  "Casing",
+  "TransparentCasing",
+]);
+
 // Hellrage NC Planner Keys to ID
 export const ncrpToId: Record<string, number> = {
+  "": 17, // (Thiz' Reactor Planner) A moderator. Specify it to graphite
   FuelCell: 1,
   Graphite: 17,
   Beryllium: 18,
+  Active: 20, // (Thiz' Reactor Planner) Generic active cooler
 };
 
 // Add Coolers and Active Coolers

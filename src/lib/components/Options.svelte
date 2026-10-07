@@ -52,7 +52,9 @@
 
 <h3 class="section-title">Moderator Output Mode:</h3>
 <p class="section-subtitle pb-6">
-  Note that <a href="https://leu-235.com/">LEU-235</a> outputs moderators as Graphite.
+  Note that <a href="https://leu-235.com/">LEU-235</a> and
+  <a href="https://github.com/ThizThizzyDizzy/nc-reactor-generator">Thiz's Planner</a> outputs moderators
+  as Graphite.
 </p>
 <div class="grid grid-rows-3 gap-2">
   <label class="my-auto">

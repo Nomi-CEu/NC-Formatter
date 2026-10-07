@@ -8,7 +8,8 @@
 </h1>
 
 ## How do I use this tool?
-1. Plan out the reactor using [Hellrage's Reactor Planner](https://github.com/hellrage/NC-Reactor-Planner), [LEU-235](https://leu-235.com/) or [Einsteinium](https://balam314.github.io/Einsteinium/)
+
+1. Plan out the reactor using [Hellrage's Reactor Planner](https://github.com/hellrage/NC-Reactor-Planner), [LEU-235](https://leu-235.com/), [Einsteinium](https://balam314.github.io/Einsteinium/), or [Thiz's Reactor Planner](https://github.com/ThizThizzyDizzy/nc-reactor-generator)
 2. Save the reactor as a JSON
 3. Go to the [website](https://nomi-ceu.github.io/NC-Formatter/), upload the file
 4. Check details
@@ -16,6 +17,7 @@
 6. Copy the exported string, and import it in-game using the Template Manager (see the [wiki](https://github.com/Direwolf20-MC/BuildingGadgets/wiki/Template-Manager) or the Quest Book for more information)
 
 ## Why this tool?
+
 This tool replaces the default 'Export BG String' functions in each of the three editors. This tool allows for:
 
 - Pasting of Active Coolers (also able to be done by Einsteinium)
